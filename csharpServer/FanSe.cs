@@ -90,6 +90,8 @@ namespace csharpServer
 
 
 
+            Console.WriteLine("clientSocket进来了");
+
             NetBufferWriter writer = new NetBufferWriter();
             Person person = new Person { cmd = 2, age = 18, name = "OK" };
 
