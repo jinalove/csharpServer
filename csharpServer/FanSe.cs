@@ -78,34 +78,34 @@ namespace csharpServer
         static void Main(string[] args)
         {
             //服务器IP地址 
-            //IPAddress ip = IPAddress.Parse("127.0.0.1");
-            //serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //serverSocket.Bind(new IPEndPoint(ip, myProt));  //绑定IP地址：端口 
-            //serverSocket.Listen(10);    //设定最多10个排队连接请求 
-            //Console.WriteLine("启动监听{0}成功", serverSocket.LocalEndPoint.ToString());
-            ////通过Clientsoket发送数据 
-            //Thread myThread = new Thread(ListenClientConnect);
-            //myThread.Start();
+            IPAddress ip = IPAddress.Parse("127.0.0.1");
+            serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            serverSocket.Bind(new IPEndPoint(ip, myProt));  //绑定IP地址：端口 
+            serverSocket.Listen(10);    //设定最多10个排队连接请求 
+            Console.WriteLine("启动监听{0}成功", serverSocket.LocalEndPoint.ToString());
+            //通过Clientsoket发送数据 
+            Thread myThread = new Thread(ListenClientConnect);
+            myThread.Start();
 
 
 
 
-            Console.WriteLine("clientSocket进来了");
+           // Console.WriteLine("clientSocket进来了");
 
-            NetBufferWriter writer = new NetBufferWriter();
-            Person person = new Person { cmd = 2, age = 18, name = "OK" };
+            //NetBufferWriter writer = new NetBufferWriter();
+            //Person person = new Person { cmd = 2, age = 18, name = "OK" };
 
-            writer.WriteInt(person.cmd);
-            writer.WriteInt(person.age);
-            writer.WriteString(person.name);
+            //writer.WriteInt(person.cmd);
+            //writer.WriteInt(person.age);
+            //writer.WriteString(person.name);
 
-            byte[] data = writer.Finish();
+            //byte[] data = writer.Finish();
 
-            NetBufferReader reader = new NetBufferReader(data);
+            //NetBufferReader reader = new NetBufferReader(data);
 
-            Console.WriteLine(reader.ReadInt());
-            Console.WriteLine(reader.ReadString());
-            Console.WriteLine(reader.ReadInt());
+            //Console.WriteLine(reader.ReadInt());
+            //Console.WriteLine(reader.ReadString());
+            //Console.WriteLine(reader.ReadInt());
             Console.ReadLine();
         }
 
@@ -130,10 +130,19 @@ namespace csharpServer
         {
             list.Clear();
 
-            for (int k = 0; k < 10; k++)
+            for (int k = 0; k < 1; k++)
             {
+                //Person person = new Person { cmd = 2, age = 18, name = "OK" };
+                //bytes = SerializeHelper.SerializeToBinary(person);
+
+                NetBufferWriter writer = new NetBufferWriter();
                 Person person = new Person { cmd = 2, age = 18, name = "OK" };
-                bytes = SerializeHelper.SerializeToBinary(person);
+
+                writer.WriteInt(person.cmd);
+                writer.WriteInt(person.age);
+                writer.WriteString(person.name);
+
+                byte[] bytes = writer.Finish();
 
                 MemoryStream buff = new MemoryStream();
                 byte head = 0xAA; 
